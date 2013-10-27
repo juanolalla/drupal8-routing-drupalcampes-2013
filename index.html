@@ -1,0 +1,874 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Drupal 8 in action, the route to the method</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/custom/plugins/prism/prism.css">
+	<link rel="stylesheet" href="shower/themes/custom/styles/screen.css">
+	<style>	
+	.slide {
+		background: none repeat scroll 0 0 #000000;
+		color: #FFFFFF;
+	 }
+	.slide:after {
+		background: none;
+		content: none;
+	 }
+	.slide > div {
+		height: 580px;
+		width: 904px;
+		padding: 60px 60px 0;
+	}
+	.slide a {
+		color: #52A2DF;
+		border: none;
+	}
+	.slide h2 {
+		color: #FFFFFF;
+		line-height: 1.25;
+	}
+  .slide h2.min-margin-bottom {
+		margin-bottom: 25px;
+	}
+	.slide p {
+		font-size: 28px;
+		line-height: 1.5;
+	}
+	.slide h3, .slide pre.h3 {
+		font-size: 32px;
+		line-height: 1.375;
+	}
+	.slide kbd, .slide code, .slide samp {
+		-moz-tab-size: 2;
+		-o-tab-size: 2;
+		tab-size: 2;
+		background: none repeat scroll 0 0 #000000;
+		color: #FFFFFF;
+		margin-right: 0.2em;
+	}
+	.slide pre code {
+		line-height: 40px;
+		white-space: pre-wrap;
+	}
+	.slide pre code:before {
+		content: none;
+	}
+  .slide ol, .slide ul {
+    margin-left: 50px;
+  }
+	
+	
+	.slide.big-centered h2 {
+		text-align: center;
+		font-size: 75px;
+		margin-top: 75px;
+		line-height: 1.25;
+	}
+	.slide.big-centered p {
+		text-align: center;
+		font-size: 50px;
+		color: #DDDDDD;
+		line-height: 1.33;
+	}
+	.slide.no-margin > div {
+		width: 984px;
+		height: 620px;
+		padding: 20px 20px 0;
+	}
+  .slide.no-horizontal-margin > div {
+		width: 984px;
+		height: 580px;
+		padding: 60px 20px 0;
+	}
+  .slide pre:not(.inline) {
+    margin: 0 0 25px;
+  }
+	.slide pre.h2 {
+		line-height: 1.25;
+		margin: 0 0 37px;
+		font-size: 50px;
+		font-weight: bold;
+	}
+	.slide .inline {
+		margin: 0;
+	}
+  .slide mark {
+    background: none;
+    color: #F92672;
+  }
+  	
+  .slide code.language-php.yaml,
+  .slide code.language-yaml,
+  .slide code.language-php.yaml .operator,
+  .slide code.language-php.yaml .punctuation,
+  .slide code.language-yaml .key {
+    color: #E6DB74;
+  }
+  .slide code.language-yaml.comment {
+		color: #708090;
+	}  
+  .slide code.language-php.yaml .keyword,
+  .slide code.language-php.yaml .constant,
+  .slide code.language-yaml .value {
+    color: #A6E22E;
+  }
+  code.language-php, .language-php span, .language-php .operator, .language-php .punctuation {
+    color: #DDEEFF;
+  }  
+  .language-php .function {
+	  color: #E6DB74;
+  }
+  
+  .language-php .keyword {
+    color: #FD971F;
+  }
+  .language-php .variable, .language-php .property, .language-php .this, .language-php .constant {
+    color: #AE81FF;
+  }
+  .language-php .number {
+    color: #66D9EF;
+  }  
+	</style>
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Drupal 8 in action, the route to the method</h1>
+		<p>Juan Olalla - DrupalCamp Spain Cáceres - October 27, 2013</p>
+	</header>
+	<section class="slide cover" id="Cover"><div>
+		<h2>Drupal 8 in action,<br>the route to the method</h2>
+		<p> @juanolalla #DrupalCampEs</p>
+		<img src="pictures/cover.jpg" alt="">
+		<style>
+			#Cover h2 {
+				margin: 0 0 0;
+				color:#FFF;
+				text-align:center;
+				font-size:70px;
+				}
+			#Cover p {
+				margin:10px 0 0;
+				text-align:center;
+				color:#FFF;
+				font-style:italic;
+				font-size:24px;
+				}
+				#Cover p a {
+					color:#FFF;
+				}
+		</style>
+	</div></section>
+	<section class="slide cover" id="about-me"><div>
+		<h2>about.me/juanolalla</h2>
+		<p><strong>Juan Olalla</strong><br>
+			web developer focused on drupal<br>
+			at @ideup (@gowex)</p>
+		<p><strong>Motivation</strong><br>
+			I’ve recently been contributing to Drupal 8 core and I want to share with you what I've learned</p>
+		<img src="pictures/about-me.jpg" alt="">
+		<style>
+			#about-me h2, #about-me p {
+				background-color: #000000;
+				padding: 10px;
+				opacity: 0.75;
+				width: 66%;
+			}
+		</style>
+	</div></section>
+  
+	<section class="slide shout"><div>
+		<h2>Wellcome to Drupal 8 Routing</h2>
+	</div></section>
+  
+	<section class="slide cover" id="hook-menu"><div>
+		<h2>Goodbye to hook_menu()</h2>
+		<img src="pictures/hook-menu.png" alt="">
+		<style>
+			#hook-menu h2 {
+				margin-top: 120px;
+				width: 50%;
+				font-size: 90px;
+			}
+			#hook-menu img {
+				left: 50%;
+			}
+		</style>
+	</div></section>
+  
+	<section class="slide"><div>
+		<h2>Goodbye to hook_menu() for routing<br>
+			and for everything else...</h2>
+		<table>
+		<tr>
+			<th scope="row">Routing</th>
+			<td>Routes defined in routing.yml and controllers</td>
+		</tr>
+		<tr>
+			<th scope="row">Menu links</th>
+			<td>Defined in hook_default_menu_links()</td>
+		</tr>
+		<tr>
+			<th scope="row">Local actions</th>
+			<td>Plugins defined in local_actions.yml</td>
+		</tr>
+		<tr>
+			<th scope="row">Local tasks</th>
+			<td>Plugins defined in local_tasks.yml</td>
+		</tr>
+		<tr>
+			<th scope="row">Contextual links</th>
+			<td>Plugins defined in contextual_links.yml</td>
+		</tr>
+		<tr>
+			<th scope="row">Breadcrumbs</th>
+			<td>Implementing BreadcrumbBuilder plugins</td>
+		</tr>		
+		</table>
+    <p>Links can be related regardless of the path, managed by machine names.</p>
+  </div></section>
+  
+	<section class="slide big-centered"><div>
+		<h2>Drupal 8 uses Symfony2 Routing component</h2>
+		<p>And also uses Symfony CMF RoutingBundle for dynamic routing</p>
+	</div></section>
+  
+	<section class="slide big-centered"><div>
+		<h2>What is a route?</h2>
+	</div></section> 
+   
+	<section class="slide"><div>
+		<h2>A route is an object defined by</h2>
+		<ol>
+			<li>Path</li>
+			<li>Default values</li>
+			<li>Requirements</li>
+			<li>Options</li>
+			<li>Host</li>
+			<li>Schemes</li>
+			<li>Methods</li>
+		</ol>
+	</div></section>
+  
+	<section class="slide no-margin"><div>
+		<pre>
+			<code class="language-php">use Symfony\Component\Routing\Route;	
+			
+$route = new Route(
+  '/archive/{month}', // path
+  array('controller' => 'showArchive'), // default values
+  array(
+    'month' => '[0-9]{4}-[0-9]{2}',
+    'subdomain' => 'www|m',
+  ), // requirements
+  array(), // options
+  '{subdomain}.example.com', // host
+  array(), // schemes
+  array() // methods
+);
+			</code>
+		</pre>
+	</div></section>
+	<section class="slide"><div>
+		<h2>The Routing component gets routes from</h2>
+		<ul>
+			<li>PHP code:
+				<ul>
+					<li>a RouteCollection object</li>
+					<li>closures</li>
+					<li>class annotations</li>
+				</ul>
+			</li>
+			<li>External files:
+				<ul>
+					<li>YAML</li>
+					<li>XML</li>
+					<li>PHP</li>
+				</ul>
+			</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Drupal 8 uses YAML to define routes</h2>
+		<pre>
+			<code class="language-php yaml">foo.archive:
+  path: '/archive/{month}'
+  defaults:
+    _content: '\Drupal\foo\Controller\FooController::showArchive'
+  requirements:
+    month: '[0-9]{4}-[0-9]{2}'
+    subdomain: 'www|m'
+  host: '{subdomain}.example.com'</code>
+		</pre>
+	</div></section>
+
+	<section class="slide big-centered"><div>
+		<h2>Let’s start with a plain <br>“hello world”</h2>
+		<p>using a /hello-world path</p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Defining the route in YAML</h2>
+		<p>/modules/foo/foo.routing.yml</p>
+		<pre>
+			<code class="language-php yaml">foo.hello_world:
+  path: '/hello-world'
+  defaults:
+    _controller: '\Drupal\foo\Controller\FooController::helloWorld'
+  requirements:
+    _access: 'TRUE'</code>
+		</pre>
+	</div></section>
+
+	<section class="slide" id="creating-controller"><div>
+		<h2>Creating the controller</h2>
+    <p>/modules/foo/lib/Controller/FooController.php</p>
+		<pre>
+			<code class="language-php">namespace Drupal\foo\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
+class FooController {
+  public function helloWorld() {
+    $response = new Response('Hello World!');
+    $response->headers->set('Content-Type', 'text/plain');
+    return $response;
+  }  
+}</code>
+		</pre>
+    <style>
+      #creating-controller p {
+        margin-bottom: 25px;
+      }
+    </style>
+	</div></section>
+	<section class="slide big-centered"><div>
+		<h2><code class="language-text">
+Hello World!</code></h2>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Drupal 8 will use PSR-4 for module classes instead of PSR-0</h2>
+		<p>/modules/foo/lib/Controller/FooController.php<br>
+			instead of<br>
+			/modules/foo/lib/<mark>Drupal/foo/</mark>Controller/FooController.php</p>
+	    <p>drupal.org issue: <a href="https://drupal.org/node/1971198">https://drupal.org/node/1971198</a></p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Returning a JSON response</h2>
+		<pre>
+			<code class="language-php">namespace Drupal\foo\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse
+
+class FooController {
+
+  public function helloWorld() {
+    return new JsonResponse(
+      array('greeting' => 'Hello World!')
+    );
+  }  
+}</code>
+		</pre>
+	</div></section>
+	<section class="slide"><div>
+		<h2><code class="language-text">
+
+{"greeting":"Hello World!"}</code></h2>
+	</div></section>
+	<section class="slide big-centered"><div>
+		<h2>Returning "hello world" inside Drupal content</h2>
+		<p>using a /hello-world path</p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Defining the route in YAML</h2>
+		<pre>
+			<code class="language-php yaml">foo.hello_world:
+  path: '/hello-world'
+  defaults:
+    _content: '\Drupal\foo\Controller\FooController::helloWorld'
+    _title: 'Greeting'
+  requirements:
+    _permission: 'access content'</code>
+		</pre>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Returning a render array</h2>
+		<pre>
+			<code class="language-php">namespace Drupal\foo\Controller;
+use Drupal\Core\Controller\ControllerBase;
+
+class FooController extends ControllerBase {
+
+  public function helloWorld() {
+    $build = array();
+    $build['#markup'] = $this->t('Hello World!');
+    return $build;
+  }
+}
+</code>
+		</pre>
+	</div></section>
+	<section class="slide cover"><div>
+		<img src="pictures/hello-world.png" alt="">
+	</div></section>
+	<section class="slide"><div>
+		<h2>What about dynamic page titles?</h2>
+		<p>drupal_set_title() is being removed</p>
+		<h3>Use _title_callback in the route defaults</h3>
+		<pre><code class="language-php yaml">defaults:
+  _title_callback: '\Drupal\foo\Controller\FooController::getTitle'</code></pre>
+		<h3>Or return it as part of the main render array</h3>
+		<pre><code class="language-php">$build['#title'] = ...</code></pre>
+	</div></section>	
+	<section class="slide big-centered"><div>
+		<h2>Returning a "hello world" greeting configuration form</h2>
+		<p>at /admin/config/people/greeting</p>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Defining the route in YAML</h2>
+		<pre>
+			<code class="language-php yaml">
+foo.admin_greeting:
+  path: '/admin/config/people/greeting'
+  defaults:
+    _form: '\Drupal\foo\Form\FooForm'
+  requirements:
+    _permission: 'administer greeting'</code>
+		</pre>
+	</div></section>
+	<section class="slide no-margin"><div>
+		<pre>
+			<code class="language-php">use Drupal\Core\Form\ConfigFormBase;
+
+class FooForm extends ConfigFormBase {
+
+  public function getFormId() { return 'foo_form'; }
+  
+  public function buildForm(array $form, array &$form_state) {
+    $form['foo_greeting'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Greeting'),
+      '#default_value' => 'Hellow World!',
+    );
+    return parent::buildForm($form, $form_state);
+  }
+}</code>
+		</pre>
+	</div></section>
+	<section class="slide cover"><div>
+		<img src="pictures/hello-world-form.png" alt="">
+	</div></section>
+	<section class="slide no-margin"><div>
+		<h2>FormBase implements FormInterface</h2>
+		<pre>
+			<code class="language-php">namespace Drupal\Core\Form;
+
+interface FormInterface {
+
+  public function getFormId();
+
+  public function buildForm(array $form, array &$form_state);
+
+  public function validateForm(array &$form, array &$form_state);
+
+  public function submitForm(array &$form, array &$form_state);
+}</code>
+		</pre>
+	</div></section>
+  
+  
+	<section class="slide shout"><div>
+		<h2>Advanced Routing</h2>
+	</div></section>
+  
+	<section class="slide no-margin"><div>
+		<pre class="h2" style="margin-top: 60px"><code class="language-php yaml">defaults:</code></pre>
+		<pre class="inline"><code class="language-yaml comment"># Control the full response apart from Drupal extra content</code></pre>
+		<pre>
+			<code class="language-php yaml">_controller: '\Drupal\book\Controller\BookController::bookExport'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment"># Put content in the main region and let Drupal do the rest</code></pre>
+		<pre>
+			<code class="language-php yaml">_content: '\Drupal\book\Controller\BookController::bookRender'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment"># Get the buildForm method of a class extending a Drupal Form</code></pre>
+		<pre>
+			<code class="language-php yaml">_form: '\Drupal\book\Form\BookSettingsForm'</code>
+		</pre>
+	</div></section>
+	<section class="slide no-horizontal-margin" id="entity-defaults"><div>
+		<h2>Entity defaults</h2>
+		<pre class="h3"><code class="language-php yaml">defaults:</code></pre>
+		<pre class="inline"><code class="language-yaml comment">  # Call buildForm for the action entity add operation Form</code></pre>
+		<pre>
+			<code class="language-php yaml">  _entity_form: 'action.add'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment">  # Display a list of taxonomy_vocabulary entity objects</code></pre>
+		<pre>
+			<code class="language-php yaml">  _entity_list: 'taxonomy_vocabulary'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment">  # Show the full view mode of a user entity object</code></pre>
+		<pre>
+			<code class="language-php yaml">  _entity_view: 'user.full'</code>
+		</pre>
+	</div></section>
+  
+	<section class="slide"><div>
+		<h2 class="min-margin-bottom">Passing parameters to the controller method</h2>
+		<pre class="inline"><code class="language-yaml comment"># Parameter defined in the path</code></pre>
+		<pre>
+			<code class="language-php yaml">path: '/comment/{comment}/approve'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment"># Default parameter</code></pre>
+		<pre>
+			<code class="language-php yaml">path: '/admin/structure/types'
+defaults:
+  entity_type: 'node_type'</code>
+		</pre>		
+		<pre class="inline"><code class="language-yaml comment"># Optional (both in the path and with a default value)</code></pre>
+		<pre>
+			<code class="language-php yaml">path: '/admin/config/search/path/{keys}'
+defaults:
+  keys: NULL</code>
+		</pre>
+	</div></section>
+  
+  <section class="slide no-margin"><div>
+		<pre>
+			<code class="language-php yaml">node.overview_types:
+  path: '/admin/structure/types'
+  defaults:
+    _content: '\Drupal\Core\Entity\Controller\EntityListController::listing'
+    entity_type: 'node_type'
+    _title: 'Content types'
+</code>
+<code class="language-php">
+class EntityListController extends ControllerBase {
+  public function listing($entity_type) {
+    return $this->entityManager()
+      ->getListController($entity_type)
+      ->render();
+  }
+}</code>
+		</pre>
+	</div></section>
+  
+  <section class="slide no-horizontal-margin"><div>
+		<h2>Parameters are upcasted to entities by entity type id</h2>
+		<pre>
+			<code class="language-php yaml">contact.personal_page
+  path: '/user/{user}/contact'
+
+contact.site_page_category:
+  path: '/contact/{contact_category}'</code>
+		</pre>
+    <pre>
+      <code class="language-php">class ContactController {
+  public function contactPersonalPage(UserInterface $user) {...}
+  public function contactSitePage(
+    CategoryInterface $contact_category = NULL) {...}
+}</code>
+    </pre>
+	</div></section>
+  
+  <section class="slide"><div>
+		<h2>Explicitly converting parameters into entities</h2>
+		<pre>      
+			<code class="language-php yaml">foo.hello_user:
+  path: '/{foo_user}/hello/{user}'</code>
+      <code class="language-yaml comment">  # e.g. /1/hello/2</code>
+      <code class="language-php yaml">  defaults:
+    _content: '\...\FooController::helloUser'
+  options:
+    parameters:
+      foo_user:
+        type: 'entity:user'</code>
+      <code class="language-yaml comment">        # {foo_user} will also be passed as a user entity</code>
+		</pre>
+	</div></section>
+	
+	<section class="slide"><div>
+    <h2>Regular expressions requirements for parameters</h2>
+    <pre class="inline"><code class="language-yaml comment"># {op} parameter can only be 'enable' or 'disable'</code></pre>
+    <pre>
+      <code class="language-php yaml">views_ui.operation:
+  path: '/admin/structure/views/view/{view}/{op}'
+  requirements:
+    op: 'enable|disable'</code>
+    </pre>
+    <pre class="inline"><code class="language-yaml comment"># {user} parameter can only be a number</code></pre>
+    <pre>
+      <code class="language-php yaml">user.view:
+  path: '/user/{user}'
+  requirements:</code>
+      <code class="language-yaml">    <span class="key">user:</span> <span class="value">\d+</span></code>
+    </pre>
+  </div></section>
+	
+  <section class="slide cover" id="access-check"><div>
+    <h2>Access Check</h2>
+    <pre class="h2" style="margin-top: 60px"><code class="language-yaml">_you_shall_not_pass: TRUE</code></pre>
+		<img src="pictures/requirements.png" alt="">
+    <style>
+			#access-check h2 {
+        text-align: center;
+				margin-top: 180px;
+				font-size: 90px;
+			}
+      #access-check code {
+        text-align: center;
+        color: #708090;
+      }
+		</style>
+	</div></section>
+  
+  <section class="slide"><div>
+    <h2>Drupal 8 doesn't implement Symfony2 Security component, and manages access from routing</h2>
+    <p>Symfony uses a separate Security component for controlling route access that is too complex to integrate in Drupal 8.</p>
+    <p>Drupal 8 implements access checkers services, which will ignore, allow or deny the access based on a requirement on the route.</p>
+	</div></section>
+  
+  <section class="slide"><div>
+		<h2>Checking Permissions</h2>
+		<pre>
+			<code class="language-php yaml">node.overview_types:
+  path: '/admin/structure/types'
+  defaults:
+    _content: '\Drupal\Core\Entity\Controller\EntityListController::listing'
+    entity_type: 'node_type'
+    _title: 'Content types'
+  requirements:
+    _permission: 'administer content types'</code>
+		</pre>
+	</div></section>
+  
+	<section class="slide"><div>
+    <h2>Still setting permissions in hook_permission()</h2>
+		<pre>
+			<code class="language-php">function node_permission() {
+  return array(
+    'administer content types' => array(
+      'title' => t('Administer content types'),
+      'restrict access' => TRUE,
+    ),
+  );
+}</code>
+		</pre>
+    <h3>I asked for hook_permission() in IRC #drupal-contribute</h3>
+    <p>&lt;timplunkett&gt; juanolalla: no plans to replace that AFAIK</p>
+	</div></section>
+  
+  <section class="slide"><div>
+    <h2>Common access checkers provided by Drupal core</h2>
+    <pre class="inline"><code class="language-yaml comment"># Always pass, or 'FALSE' to always fail and block access</code></pre>		
+    <pre>
+			<code class="language-php yaml">requirements:
+  _access: 'TRUE'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment"># Role IDs separated by "," (any role) or "+" (all roles)</code></pre>
+		<pre>
+			<code class="language-php yaml">requirements:
+  _role: 'authenticated,admin'</code>
+		</pre>				
+    <pre class="inline"><code class="language-yaml comment"># Passes if the user is logged in</code></pre>	
+    <pre>    
+			<code class="language-php yaml">requirements:
+  _user_is_logged_in: 'TRUE'</code>
+		</pre>
+	</div></section>
+  
+  <section class="slide no-horizontal-margin"><div>
+    <h2>Other useful access checkers provided</h2>    
+    <pre class="inline"><code class="language-yaml comment"># Checks if any/all (,/+) the specified modules are enabled</code></pre>
+		<pre>
+			<code class="language-php yaml">requirements:
+  _module_dependencies: 'node + search'</code>
+		</pre>
+    <pre class="inline"><code class="language-yaml comment"># Checks access to the specified entity_type.operation</code></pre>
+		<pre>
+			<code class="language-php yaml">requirements:
+  _entity_access: 'node.edit'</code>
+		</pre>
+		<pre class="inline"><code class="language-yaml comment"># Checks access to the specified entity_type:entity_bundle</code></pre>
+		<pre>
+			<code class="language-php yaml">requirements:
+  _entity_create_access: 'taxonomy_term:{taxonomy_vocabulary}'</code>
+		</pre>
+	</div></section>
+  
+  <section class="slide"><div>
+		<h2>Declaring your own custom access checker</h2>
+    <h3>Declare your requirement checker in .routing.yml</h3>
+		<pre>
+			<code class="language-php yaml">requirements:
+  _you_shall_not_pass: 'TRUE'</code>
+		</pre>
+    <h3>Register an access checker class as a service (in .services.yml)</h3>
+    <pre>
+			<code class="language-php yaml">services:
+  access_check.foo.gandalf:</code>
+<code class="language-yaml">    <span class="key">class:</span> <span class="value">Drupal\foo\Access\GandalfAccessCheck</span>
+    <span class="key">tags:</span>
+      <span class="value">- {</span> <span class="key">name:</span> <span class="value">access_check }</span></code>
+		</pre>
+	</div></section>
+  <section class="slide no-margin"><div>
+		<h2>Writting your own custom access checker class</h2>
+    <pre>
+			<code class="language-php">class GandalfAccessCheck implements StaticAccessCheckInterface {
+  public function appliesTo() {
+    return array('_you_shall_not_pass');
+  }
+  
+  public function access(Route $route, Request $request) {
+    $requirement = $route->getRequirement('_you_shall_not_pass');
+    if (!in_array('https', $route->getSchemes())
+        && $requirement == 'TRUE') {
+      return static::DENY; // or return static::ALLOW
+    } // No return means other checkers will decide
+  }
+}</code>
+		</pre>
+	</div></section>
+  
+	<section class="slide no-horizontal-margin"><div>
+		<h2>Access mode options, checking any or all requirements</h2>
+		<pre>
+			<code class="language-php yaml">node.add_page:
+  path: '/node/add'
+  defaults:
+    _title: 'Add page'
+    _content: '\Drupal\node\Controller\NodeController::addPage'
+  options:
+    _access_mode: 'ANY'
+  requirements:
+    _permission: 'administer content types'
+    _node_add_access: 'node'</code>
+		</pre>
+	</div></section>
+  
+  <section class="slide cover big-centered" id="dynamic-routes"><div>
+    <h2>Building Dynamic Routes</h2>
+    <p>Implement a route subscriber class</p>
+		<img src="pictures/stairs-maze.jpg" alt="">
+	</div></section>
+  
+  <section class="slide no-margin"><div>
+    <h2>/core/modules/system/Routing/RouteSubscriber.php</h2>
+		<pre>
+			<code class="language-php">namespace Drupal\system\Routing;
+
+use Drupal\Core\Routing\RouteSubscriberBase;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+
+/**
+ * Provides dynamic routes for theme administration.
+ */
+class RouteSubscriber extends RouteSubscriberBase {
+  protected function routes(RouteCollection $collection) {...}
+}</code>
+		</pre>
+	</div></section>
+  
+  <section class="slide no-margin"><div>
+		<pre>
+			<code class="language-php">protected function routes(RouteCollection $collection) {
+  foreach (list_themes() as $theme) {
+    $route = new Route(
+      'admin/appearance/settings/' . $theme->name,
+      array(
+        '_form' => '\Drupal\system\Form\ThemeSettingsForm',
+        'theme_name' => $theme->name
+      ),
+      array('_permission' => 'administer themes'),
+    );
+    $collection->add(
+      'system.theme_settings_' . $theme->name, $route);
+  }
+}</code>
+		</pre>
+	</div></section>
+  
+	<section class="slide cover big-centered"><div>
+		<h2>Dependency injection</h2>    
+    <p>Keep your controllers clean and thin</p>
+    <img src="pictures/dependency-injection.png" alt="">
+	</div></section>
+  
+  <section class="slide no-horizontal-margin"><div>
+		<h2>Our classes shouldn't have hard-coded dependencies</h2>
+		<pre>
+			<code class="language-php">class SongController {
+      
+  public function getRandomSong() {
+    // db_query() is a hard-coded dependency
+    $songs = db_query('SELECT name FROM {songs}')->fetchCol();
+    $song = $songs[rand(0, count($songs) - 1)];
+    return new JsonResponse(
+      array('song' => $song)
+    );
+  }
+}</code>
+		</pre>
+	</div></section>
+  <section class="slide no-horizontal-margin"><div>
+    <h2>Decoupling the dependency</h2>
+		<pre>
+			<code class="language-php">
+  protected $database; // Drupal\Core\Database\Connection;
+
+  public function getRandomSong() {
+    $songs = $this->database
+      ->query('SELECT name FROM {songs}')->fetchCol();
+    return $songs[rand(0, count($songs) - 1)];
+  }
+</code>
+		</pre>
+  </div></section>
+
+  <section class="slide no-margin"><div>
+    <h2>Getting the dependency injected</h2>
+		<pre>
+			<code class="language-php">use Drupal\Core\Database\Connection;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class SongController implements ContainerInjectionInterface {
+  protected $database;
+  public function __construct(Connection $database) {
+    $this->database = $database;
+  }
+  public static function create(ContainerInterface $container) {
+    // Instantiate the controller with a database object
+    return new static($container->get('database'));
+  }
+</code>
+		</pre>
+  </div></section>
+  
+  <section class="slide cover big-centered" id="contribute"><div>
+    <h2>Want to see more coming?</h2>
+    <pre class="h2" style="margin-top: 60px"><code class="language-irc">/join #drupal-contribute</code></pre>
+		<img src="pictures/drupal-8-ball.png" alt="">
+    <style>
+      #contribute h2 {
+        text-align: center;
+				margin-top: 130px;
+				font-size: 90px;
+			}
+      #contribute code {
+        text-align: center;
+        margin-top: 100px;
+      }
+		</style>
+	</div></section>
+	
+	<section class="slide cover big-centered" id="hall"><div>
+    <h2>Thank you!</h2>
+    <img src="pictures/hall.jpg" alt="">
+  </div></section>
+
+	<script src="shower/themes/custom/plugins/prism/prism.js"></script>
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>
